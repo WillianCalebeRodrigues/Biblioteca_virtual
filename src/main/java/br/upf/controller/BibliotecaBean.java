@@ -30,7 +30,7 @@ public class BibliotecaBean implements Serializable {
     private List<Emprestimo> emprestimosAtivos = new ArrayList<>();
 
     private long totalLivros;
-    private long livrosDisponisponiveis; // Esta variável está com um 's' a mais
+    private long livrosDisponisponiveis; 
     private long emprestimosAtivosCount;
     private long totalAutores;
 
@@ -54,7 +54,7 @@ public class BibliotecaBean implements Serializable {
     public void carregarEstatisticas() {
         try {
             totalLivros = bibliotecaService.contarTotalLivros();
-            // Esta chamada deve corresponder ao nome do método no seu service
+            
             livrosDisponisponiveis = bibliotecaService.contarLivrosDisponisponiveis();
             emprestimosAtivosCount = bibliotecaService.contarEmprestimosAtivos();
             totalAutores = bibliotecaService.contarTotalAutores();
@@ -97,8 +97,8 @@ public class BibliotecaBean implements Serializable {
                 .addMessage(null, new FacesMessage(severity, summary, detail));
     }
 
-    // --- GETTERS (Necessários para a página XHTML) ---
-    // Este bloco foi completado para resolver o PropertyNotFoundException
+    // --- GETTERS ---
+    
 
     public List<Autor> getAutores() {
         return autores;
@@ -117,8 +117,8 @@ public class BibliotecaBean implements Serializable {
     }
 
     public long getLivrosDisponiveis() {
-        // A página chama 'livrosDisponiveis' (nome correto)
-        // O getter retorna a variável 'livrosDisponisponiveis' (com 's' extra)
+        // A página chama 'livrosDisponiveis' 
+        // O getter retorna a variável 'livrosDisponisponiveis' 
         // Isso faz a "ponte" e resolve o erro.
         return livrosDisponisponiveis;
     }
