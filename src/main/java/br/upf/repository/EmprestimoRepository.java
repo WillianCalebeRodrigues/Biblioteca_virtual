@@ -44,7 +44,7 @@ public class EmprestimoRepository {
                 .getSingleResult();
     }
 
-    // NOVO: Necessário para a regra de negócio no service
+   
     // Conta empréstimos ativos para um livro específico
     public Long countAtivosByLivroId(Long livroId) {
         return entityManager.createQuery(
