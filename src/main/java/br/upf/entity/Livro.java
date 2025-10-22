@@ -34,7 +34,7 @@ public class Livro {
     @OneToMany(mappedBy = "livro", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Emprestimo> emprestimos = new ArrayList<>();
 
-    // Construtor padrão
+    
     public Livro() {
     }
 
@@ -43,7 +43,7 @@ public class Livro {
         this.titulo = titulo;
         this.isbn = isbn;
         this.autor = autor;
-        this.disponivel = true; // valor padrão
+        this.disponivel = true;
     }
 
     // Getters e Setters
