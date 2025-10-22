@@ -32,7 +32,7 @@ public class LivroRepository {
     }
     // Encontra um livro pelo ID
     public Livro findById(Long id) {
-        // Usamos JOIN FETCH para já trazer o autor e evitar LazyException
+        // Usei JOIN FETCH para já trazer o autor e evitar LazyException
         try {
             return entityManager.createQuery(
                             "SELECT l FROM Livro l LEFT JOIN FETCH l.autor WHERE l.id = :id", Livro.class)
@@ -52,7 +52,7 @@ public class LivroRepository {
         }
     }
 
-    // NOVO: Necessário para a regra de negócio no service
+    
     // Conta quantos livros um autor específico possui
     public Long countByAutorId(Long autorId) {
         return entityManager.createQuery(
