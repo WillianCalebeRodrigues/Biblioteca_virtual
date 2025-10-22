@@ -29,7 +29,7 @@ public class Emprestimo {
     @JoinColumn(name = "livro_id", nullable = false)
     private Livro livro;
 
-    // Construtor padrão
+   
     public Emprestimo() {
     }
 
