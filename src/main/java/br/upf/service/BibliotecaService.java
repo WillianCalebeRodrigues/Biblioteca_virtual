@@ -4,7 +4,7 @@ import br.upf.entity.*;
 import br.upf.repository.*;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional; // Importação necessária para @Transactional
+import jakarta.transaction.Transactional; 
 import java.util.List;
 
 @ApplicationScoped
@@ -39,7 +39,7 @@ public class BibliotecaService {
         return livroRepository.count();
     }
 
-    public Long contarLivrosDisponisponiveis() { // Corrigi o nome do método para "Disponiveis"
+    public Long contarLivrosDisponisponiveis() { 
         return livroRepository.countByDisponivel(true);
     }
 
@@ -51,7 +51,7 @@ public class BibliotecaService {
         return autorRepository.count();
     }
 
-    // --- NOVOS MÉTODOS DE ESCRITA (CRUD - Delete) ---
+    
 
     /**
      * Exclui um autor.
