@@ -94,6 +94,18 @@
             <artifactId>rest-assured</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- Quarkus Security -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-security-jpa</artifactId>
+        </dependency>
+
+        <!-- Para usar @RolesAllowed nas APIs REST -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-security</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

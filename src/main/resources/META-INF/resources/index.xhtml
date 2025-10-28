@@ -158,6 +158,36 @@
             <p>💻 Projeto Utilizando Jakarta EE, Quarkus e Relacionamentos JPA</p>
         </header>
 
+        <!-- Barra de Usuário -->
+        <h:panelGroup rendered="#{securityBean.loggedIn}">
+            <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                <div>
+            <span style="font-size: 1.1em;">
+                👤 Bem-vindo, <strong>#{securityBean.username}</strong>
+            </span>
+                    <span style="margin-left: 15px; padding: 5px 12px; border-radius: 15px; font-size: 0.9em; font-weight: bold; color: white;
+                         background-color: #{securityBean.admin ? '#dc3545' : (securityBean.bibliotecario ? '#ffc107' : '#28a745')};">
+                #{securityBean.admin ? '🔴 ADMIN' : (securityBean.bibliotecario ? '🟡 BIBLIOTECÁRIO' : '🟢 USUÁRIO')}
+            </span>
+                </div>
+                <h:form>
+                    <p:commandButton value="🚪 Sair"
+                                     action="#{securityBean.logout}"
+                                     styleClass="ui-button-danger"
+                                     icon="pi pi-sign-out" />
+                </h:form>
+            </div>
+        </h:panelGroup>
+
+        <!-- Aviso para não autenticados -->
+        <h:panelGroup rendered="#{not securityBean.loggedIn}">
+            <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center; border-left: 4px solid #ffc107;">
+                ⚠️ Você está navegando como visitante.
+                <h:link value="Faça login" outcome="/login" style="color: #007bff; font-weight: bold;" />
+                para acessar todas as funcionalidades.
+            </div>
+        </h:panelGroup>
+
         <h:form>
             <section class="stats-grid">
                 <div class="stat-card">
@@ -203,10 +233,20 @@
                         <h:link value="✏️ Editar" outcome="/autor" styleClass="table-button table-button-edit">
                             <f:param name="id" value="#{autor.id}" />
                         </h:link>
-                        <p:commandLink value="🗑️ Excluir" action="#{bibliotecaBean.excluirAutor(autor.id)}"
+
+                        <!-- Botão de excluir apenas para ADMIN -->
+                        <p:commandLink value="🗑️ Excluir"
+                                       action="#{bibliotecaBean.excluirAutor(autor.id)}"
                                        onclick="return confirm('Tem certeza?');"
                                        styleClass="table-button table-button-delete"
-                                       update="@form" />
+                                       update="@form"
+                                       rendered="#{securityBean.admin}" />
+
+                        <!-- Mensagem para não-admins -->
+                        <span style="color: #999; font-size: 0.85em;"
+                              rendered="#{not securityBean.admin}">
+        🔒 Apenas Admin
+    </span>
                     </p:column>
                 </p:dataTable>
             </div>

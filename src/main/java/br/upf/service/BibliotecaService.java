@@ -6,6 +6,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional; 
 import java.util.List;
+import br.upf.dto.LivroSearchDTO;
+
 
 @ApplicationScoped
 public class BibliotecaService {
@@ -98,5 +100,11 @@ public class BibliotecaService {
         } else {
             throw new RuntimeException("Livro com ID " + id + " não encontrado.");
         }
+    }
+
+    public List<Livro> buscarLivrosComFiltros(LivroSearchDTO searchDTO) {
+        // A lógica de busca complexa é delegada ao repositório.
+        // Você precisará criar o método 'findByFiltros' no seu LivroRepository.
+        return livroRepository.findByFiltros(searchDTO);
     }
 }

@@ -137,3 +137,13 @@ INSERT INTO emprestimos (nomeusuario, emailusuario, dataemprestimo, datadevoluca
 ('Diego Moreira', 'diego.moreira@email.com', '2024-11-07', '2024-11-21', 41),
 ('Renata Castro', 'renata.castro@email.com', '2024-11-20', '2024-12-04', 19),
 ('Gustavo Nunes', 'gustavo.nunes@email.com', '2024-11-21', '2024-12-05', 33);
+
+-- ============================================
+-- INSERIR USUÁRIOS DO SISTEMA
+-- ============================================
+-- Senha de todos os usuários: "senha123" (hasheada com BCrypt)
+INSERT INTO usuarios (username, password, roles, nomecompleto, email, ativo, datacriacao) VALUES
+('admin', 'senha123', 'ADMIN', 'Administrador do Sistema', 'admin@biblioteca.com', true, NOW()),
+('bibliotecario', 'senha123', 'BIBLIOTECARIO', 'Maria Santos', 'maria.santos@biblioteca.com', true, NOW()),
+('joao_usuario', 'senha2004, 'USUARIO', 'João Silva', 'joao.silva@email.com', true, NOW()),
+('ana_usuario', 'senha001', 'USUARIO', 'Ana Costa', 'ana.costa@email.com', true, NOW());
