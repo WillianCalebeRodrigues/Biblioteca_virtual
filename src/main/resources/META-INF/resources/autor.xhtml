@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gerenciar Autor - Biblioteca Digital</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #007bff;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+        .icon-container {
+            font-size: 4em;
+            margin-bottom: 20px;
+            color: #ffc107;
+        }
+        .message-box {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px dashed #ced4da;
+            margin-bottom: 30px;
+            color: #6c757d;
+        }
+        .btn-voltar {
+            display: inline-block;
+            text-decoration: none;
+            color: #fff;
+            background-color: #6c757d;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .btn-voltar:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+    </style>
+</h:head>
+<h:body>
+    <div class="container">
+        <div class="icon-container">
+            🚧
+        </div>
+        <h1>Gerenciamento de Autor</h1>
+
+        <div class="message-box">
+            <h3>Funcionalidade em Desenvolvimento</h3>
+            <p>O formulário de cadastro e edição de autores ainda não foi implementado.</p>
+            <p style="font-size: 0.9em; margin-top: 10px;">
+                <em>(Necessário criar <code>AutorBean.java</code> com métodos <code>save/update</code>)</em>
+            </p>
+        </div>
+
+        <h:link outcome="index" value="⬅ Voltar para a Biblioteca" styleClass="btn-voltar" />
+    </div>
+</h:body>
+</html>

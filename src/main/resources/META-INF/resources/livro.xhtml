@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gerenciar Livro - Biblioteca Digital</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #007bff;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 15px;
+            margin-top: 0;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        /* Ajustes nos inputs do PrimeFaces para ocuparem 100% da largura do container pai */
+        .ui-inputtext, .ui-selectonemenu, .ui-calendar {
+            width: 100% !important;
+            box-sizing: border-box;
+        }
+        .ui-selectonemenu {
+             display: flex !important; /* Corrige alinhamento do dropdown */
+        }
+        .ui-selectonemenu-label {
+            width: 100% !important;
+        }
+
+        .actions {
+            margin-top: 30px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+        .btn-cancelar {
+            background-color: #6c757d !important;
+            border: none !important;
+            color: white !important;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+        }
+        .btn-cancelar:hover {
+            background-color: #5a6268 !important;
+        }
+    </style>
+</h:head>
+<h:body>
+    <f:view>
+        <p:growl globalOnly="true" showDetail="true" life="3000" />
+
+        <div class="container">
+            <h1>📚 #{livroBean.livro.id == null ? 'Novo Livro' : 'Editar Livro'}</h1>
+
+            <h:form id="formLivro">
+                <h:inputHidden value="#{livroBean.livro.id}" />
+
+                <div class="form-group">
+                    <p:outputLabel for="titulo" value="Título do Livro:" />
+                    <p:inputText id="titulo" value="#{livroBean.livro.titulo}"
+                                 required="true" requiredMessage="O título é obrigatório."
+                                 placeholder="Ex: Dom Casmurro" />
+                    <p:message for="titulo" />
+                </div>
+
+                <div class="form-group">
+                    <p:outputLabel for="isbn" value="ISBN:" />
+                    <p:inputText id="isbn" value="#{livroBean.livro.isbn}"
+                                 maxlength="14"
+                                 placeholder="Ex: 978-8501058201" />
+                </div>
+
+                <div class="form-row" style="display: flex; gap: 20px;">
+                    <div class="form-group" style="flex: 1;">
+                        <p:outputLabel for="paginas" value="Número de Páginas:" />
+                        <p:inputNumber id="paginas" value="#{livroBean.livro.numeroPaginas}"
+                                       decimalPlaces="0" thousandSeparator="" />
+                    </div>
+
+                    <div class="form-group" style="flex: 1;">
+                        <p:outputLabel for="publicacao" value="Data de Publicação:" />
+                        <p:calendar id="publicacao" value="#{livroBean.livro.dataPublicacao}"
+                                    pattern="dd/MM/yyyy" navigator="true" mask="true"
+                                    showOn="button" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <p:outputLabel for="autor" value="Autor:" />
+                    <p:selectOneMenu id="autor" value="#{livroBean.autorId}"
+                                     required="true" requiredMessage="Selecione um autor."
+                                     filter="true" filterMatchMode="contains">
+                        <f:selectItem itemLabel="-- Selecione um Autor --" itemValue="" noSelectionOption="true"/>
+                        <f:selectItems value="#{livroBean.autores}" var="autor"
+                                       itemLabel="#{autor.nome}" itemValue="#{autor.id}" />
+                    </p:selectOneMenu>
+                    <p:message for="autor" />
+                </div>
+
+                <div class="actions">
+                    <h:link outcome="index" value="Cancelar" styleClass="btn-cancelar" />
+
+                    <p:commandButton value="💾 Salvar Livro"
+                                     action="#{livroBean.salvar}"
+                                     styleClass="ui-button-primary"
+                                     update="@form"
+                                     icon="pi pi-check" />
+                </div>
+            </h:form>
+        </div>
+    </f:view>
+</h:body>
+</html>
