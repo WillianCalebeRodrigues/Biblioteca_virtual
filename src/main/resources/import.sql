@@ -137,3 +137,9 @@ INSERT INTO emprestimos (nomeusuario, emailusuario, dataemprestimo, datadevoluca
 ('Diego Moreira', 'diego.moreira@email.com', '2024-11-07', '2024-11-21', 41),
 ('Renata Castro', 'renata.castro@email.com', '2024-11-20', '2024-12-04', 19),
 ('Gustavo Nunes', 'gustavo.nunes@email.com', '2024-11-21', '2024-12-05', 33);
+
+INSERT INTO usuarios (username, password, roles, nomecompleto, email, ativo, datacriacao) VALUES
+('admin', '$2a$10$wT2HlG3j07NlC9P5c5sXduQ7K19eT1.G7b8/qD.Yv0.P.Q0j4Cj9m', 'ADMIN', 'Administrador do Sistema', 'admin@biblioteca.com', true, NOW()),
+('bibliotecario', '$2a$10$wT2HlG3j07NlC9P5c5sXduQ7K19eT1.G7b8/qD.Yv0.P.Q0j4Cj9m', 'BIBLIOTECARIO', 'Maria Santos', 'maria.santos@biblioteca.com', true, NOW()),
+('joao_usuario', '$2a$10$wT2HlG3j07NlC9P5c5sXduQ7K19eT1.G7b8/qD.Yv0.P.Q0j4Cj9m', 'USUARIO', 'João Silva', 'joao.silva@email.com', true, NOW()),
+('ana_usuario', '$2a$10$wT2HlG3j07NlC9P5c5sXduQ7K19eT1.G7b8/qD.Yv0.P.Q0j4Cj9m', 'USUARIO', 'Ana Costa', 'ana.costa@email.com', true, NOW());

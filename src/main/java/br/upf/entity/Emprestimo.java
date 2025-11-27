@@ -2,6 +2,7 @@ package br.upf.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit; // Import adicionado
 
 @Entity
 @Table(name = "emprestimos")
@@ -29,15 +30,18 @@ public class Emprestimo {
     @JoinColumn(name = "livro_id", nullable = false)
     private Livro livro;
 
-   
+
     public Emprestimo() {
     }
 
-    // Construtor com nomeUsuario, emailUsuario e livro
+    // Construtor com nomeUsuario, emailUsuario e livro (Melhorado)
     public Emprestimo(String nomeUsuario, String emailUsuario, Livro livro) {
         this.nomeUsuario = nomeUsuario;
         this.emailUsuario = emailUsuario;
         this.livro = livro;
+        // Define as datas do empréstimo automaticamente
+        this.dataEmprestimo = LocalDate.now();
+        this.dataDevolucaoPrevista = LocalDate.now().plus(14, ChronoUnit.DAYS); // Previsão de 14 dias
     }
 
     // Getters e Setters

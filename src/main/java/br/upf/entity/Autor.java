@@ -27,7 +27,7 @@ public class Autor {
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Livro> livros = new ArrayList<>();
 
-    // Construtor padrão
+
     public Autor() {
     }
 

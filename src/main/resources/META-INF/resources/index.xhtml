@@ -82,10 +82,6 @@
             color: #0056b3;
             font-size: 1.8em;
         }
-
-        /* Estilos de Tabela (usados pelo PrimeFaces) */
-        /* th, td ... (removidos pois o PrimeFaces cuida disso, mas podem ficar) */
-
         .status-badge {
             padding: 5px 12px;
             border-radius: 15px;
@@ -146,6 +142,14 @@
         .table-button-delete:hover {
             background-color: #c82333;
         }
+        /* NOVO: Estilo para o botão de Empréstimo */
+        .table-button-loan {
+            background-color: #ffc107; /* Amarelo */
+            color: #333;
+        }
+        .table-button-loan:hover {
+            background-color: #e0a800;
+        }
     </style>
 </h:head>
 <h:body>
@@ -157,6 +161,34 @@
             <h1>📚 Biblioteca Digital</h1>
             <p>💻 Projeto Utilizando Jakarta EE, Quarkus e Relacionamentos JPA</p>
         </header>
+
+        <h:panelGroup rendered="#{securityBean.loggedIn}">
+            <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                <div>
+                    <span style="font-size: 1.1em;">
+                        👤 Bem-vindo, <strong>#{securityBean.username}</strong>
+                    </span>
+                    <span style="margin-left: 15px; padding: 5px 12px; border-radius: 15px; font-size: 0.9em; font-weight: bold; color: white;
+                                 background-color: #{securityBean.admin ? '#dc3545' : (securityBean.bibliotecario ? '#ffc107' : '#28a745')};">
+                        #{securityBean.admin ? '🔴 ADMIN' : (securityBean.bibliotecario ? '🟡 BIBLIOTECÁRIO' : '🟢 USUÁRIO')}
+                    </span>
+                </div>
+                <h:form>
+                    <p:commandButton value="🚪 Sair"
+                                     action="#{securityBean.logout}"
+                                     styleClass="ui-button-danger"
+                                     icon="pi pi-sign-out" />
+                </h:form>
+            </div>
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{not securityBean.loggedIn}">
+            <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center; border-left: 4px solid #ffc107;">
+                ⚠️ Você está navegando como visitante.
+                <h:link value="Faça login" outcome="/login" style="color: #007bff; font-weight: bold;" />
+                para acessar todas as funcionalidades.
+            </div>
+        </h:panelGroup>
 
         <h:form>
             <section class="stats-grid">
@@ -180,12 +212,16 @@
 
             <div class="data-section">
                 <h2>Autores Cadastrados</h2>
+
                 <div style="margin-bottom: 20px;">
-                    <h:link outcome="/autor" value="👤 Novo Autor" styleClass="button button-primary" />
+                    <h:link outcome="/autor" value="👤 Novo Autor" styleClass="button button-primary"
+                            rendered="#{securityBean.admin or securityBean.bibliotecario}" />
                 </div>
+
                 <p:dataTable var="autor" value="#{bibliotecaBean.autores}"
                              paginator="true" rows="10"
-                             paginatorPosition="top"  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             paginatorPosition="top"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="5,10,15"
                              emptyMessage="Nenhum autor encontrado."
                              styleClass="ui-datatable-striped">
@@ -200,22 +236,34 @@
                         <h:outputText value="#{autor.livros.size()}" />
                     </p:column>
                     <p:column headerText="Ações" style="text-align:center; width: 220px;">
-                        <h:link value="✏️ Editar" outcome="/autor" styleClass="table-button table-button-edit">
+                        <h:link value="✏️ Editar" outcome="/autor" styleClass="table-button table-button-edit"
+                                rendered="#{securityBean.admin or securityBean.bibliotecario}">
                             <f:param name="id" value="#{autor.id}" />
                         </h:link>
-                        <p:commandLink value="🗑️ Excluir" action="#{bibliotecaBean.excluirAutor(autor.id)}"
+
+                        <p:commandLink value="🗑️ Excluir"
+                                       action="#{bibliotecaBean.excluirAutor(autor.id)}"
                                        onclick="return confirm('Tem certeza?');"
                                        styleClass="table-button table-button-delete"
-                                       update="@form" />
+                                       update="@form"
+                                       rendered="#{securityBean.admin}" />
+
+                        <span style="color: #999; font-size: 0.85em;"
+                              rendered="#{not securityBean.admin and not securityBean.bibliotecario}">
+                            🔒 Apenas Admin
+                        </span>
                     </p:column>
                 </p:dataTable>
             </div>
 
             <div class="data-section">
                 <h2>Livros na Biblioteca</h2>
+
                 <div style="margin-bottom: 20px;">
-                    <h:link outcome="/livro" value="📚 Novo Livro" styleClass="button button-primary" />
+                    <h:link outcome="/livro" value="📚 Novo Livro" styleClass="button button-primary"
+                            rendered="#{securityBean.admin or securityBean.bibliotecario}" />
                 </div>
+
                 <p:dataTable var="livro" value="#{bibliotecaBean.livros}"
                              paginator="true" rows="10"
                              paginatorPosition="top"
@@ -238,15 +286,28 @@
                                       styleClass="status-badge #{livro.disponivel ? 'status-disponivel' : 'status-emprestado'}" />
                     </p:column>
 
-                    <p:column headerText="Ações" style="width:220px; text-align:center;">
-                        <h:link value="✏️ Editar" outcome="/livro" styleClass="table-button table-button-edit">
+                    <p:column headerText="Ações" style="width:250px; text-align:center;">
+                        <h:link value="✏️ Editar" outcome="/livro" styleClass="table-button table-button-edit"
+                                rendered="#{securityBean.admin or securityBean.bibliotecario}">
                             <f:param name="id" value="#{livro.id}" />
                         </h:link>
+
+                        <p:commandLink value="📥 Emprestar"
+                                       action="#{bibliotecaBean.emprestarLivro(livro.id)}"
+                                       onclick="return confirm('Confirmar empréstimo?');"
+                                       styleClass="table-button table-button-loan"
+                                       update="@form"
+                                       rendered="#{securityBean.usuario and livro.disponivel}" />
 
                         <p:commandLink value="🗑️ Excluir" action="#{bibliotecaBean.excluirLivro(livro.id)}"
                                        onclick="return confirm('Tem certeza que deseja excluir este livro?');"
                                        styleClass="table-button table-button-delete"
-                                       update="@form" />
+                                       update="@form"
+                                       rendered="#{securityBean.admin}" />
+
+                        <h:outputText value="⛔ Indisponível"
+                                      rendered="#{securityBean.usuario and not livro.disponivel}"
+                                      style="color: #999; font-size: 0.85em; font-weight: bold;"/>
                     </p:column>
 
                 </p:dataTable>

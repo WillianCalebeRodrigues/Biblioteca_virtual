@@ -16,8 +16,8 @@ public class EmprestimoRepository {
     public List<Emprestimo> findAll() {
         return entityManager.createQuery(
                 "SELECT e FROM Emprestimo e " +
-                "LEFT JOIN FETCH e.livro l " +
-                "LEFT JOIN FETCH l.autor", Emprestimo.class)
+                        "LEFT JOIN FETCH e.livro l " +
+                        "LEFT JOIN FETCH l.autor", Emprestimo.class)
                 .getResultList();
     }
 
@@ -25,8 +25,8 @@ public class EmprestimoRepository {
     public List<Emprestimo> findAtivos() {
         return entityManager.createQuery(
                 "SELECT e FROM Emprestimo e " +
-                "LEFT JOIN FETCH e.livro l " +
-                "WHERE e.dataDevolucao IS NULL", Emprestimo.class)
+                        "LEFT JOIN FETCH e.livro l " +
+                        "WHERE e.dataDevolucao IS NULL", Emprestimo.class)
                 .getResultList();
     }
 
@@ -44,12 +44,26 @@ public class EmprestimoRepository {
                 .getSingleResult();
     }
 
-   
+
     // Conta empréstimos ativos para um livro específico
     public Long countAtivosByLivroId(Long livroId) {
         return entityManager.createQuery(
-                        "SELECT COUNT(e) FROM Emprestimo e WHERE e.livro.id = :livroId AND e.dataDevolucao IS NULL", Long.class)
+                "SELECT COUNT(e) FROM Emprestimo e WHERE e.livro.id = :livroId AND e.dataDevolucao IS NULL", Long.class)
                 .setParameter("livroId", livroId)
                 .getSingleResult();
+    }
+
+    /**
+     * Persiste ou atualiza uma entidade Emprestimo. (Novo método)
+     * @param emprestimo A entidade Emprestimo a ser salva.
+     * @return A entidade Emprestimo gerenciada.
+     */
+    public Emprestimo save(Emprestimo emprestimo) {
+        if (emprestimo.getId() == null) {
+            entityManager.persist(emprestimo);
+            return emprestimo;
+        } else {
+            return entityManager.merge(emprestimo);
+        }
     }
 }

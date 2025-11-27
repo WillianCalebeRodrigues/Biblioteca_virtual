@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>br.upf</groupId>
@@ -8,15 +8,17 @@
     <version>1.0.0-SNAPSHOT</version>
 
     <properties>
-        <compiler-plugin.version>3.14.0</compiler-plugin.version>
+        <compiler-plugin.version>3.13.0</compiler-plugin.version>
         <maven.compiler.release>21</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
         <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
         <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-        <quarkus.platform.version>3.28.4</quarkus.platform.version>
+        <quarkus.platform.version>3.15.2</quarkus.platform.version>
+
         <skipITs>true</skipITs>
-        <surefire-plugin.version>3.5.4</surefire-plugin.version>
+        <surefire-plugin.version>3.5.0</surefire-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -32,58 +34,56 @@
     </dependencyManagement>
 
     <dependencies>
-        <!-- Quarkus Core -->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-arc</artifactId>
         </dependency>
-
-        <!-- REST (RESTEasy Reactive) -->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-rest</artifactId>
         </dependency>
-
-        <!-- Hibernate ORM -->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-hibernate-orm</artifactId>
         </dependency>
-
-        <!-- Hibernate ORM Panache (facilita operações CRUD) -->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-hibernate-orm-panache</artifactId>
         </dependency>
-
-        <!-- PostgreSQL Driver -->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-jdbc-postgresql</artifactId>
         </dependency>
 
-        <!-- Jakarta Faces (JSF) -->
         <dependency>
             <groupId>org.apache.myfaces.core.extensions.quarkus</groupId>
             <artifactId>myfaces-quarkus</artifactId>
             <version>4.1.1</version>
         </dependency>
-
-        <!-- PrimeFaces (componentes UI ricos para JSF) -->
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>13.0.8</version>
+            <version>13.0.0</version>
             <classifier>jakarta</classifier>
         </dependency>
-
-        <!-- JSON-B para serialização JSON -->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-rest-jsonb</artifactId>
         </dependency>
 
-        <!-- Testes -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-security-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-elytron-security-jdbc</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-junit5</artifactId>
@@ -109,7 +109,6 @@
                             <goal>build</goal>
                             <goal>generate-code</goal>
                             <goal>generate-code-tests</goal>
-                            <goal>native-image-agent</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -154,7 +153,6 @@
     </build>
 
     <profiles>
-        <!-- Perfil para desenvolvimento sem console interativo -->
         <profile>
             <id>dev</id>
             <activation>
@@ -164,8 +162,6 @@
                 <quarkus.console.enabled>false</quarkus.console.enabled>
             </properties>
         </profile>
-
-        <!-- Perfil para build nativo -->
         <profile>
             <id>native</id>
             <activation>
